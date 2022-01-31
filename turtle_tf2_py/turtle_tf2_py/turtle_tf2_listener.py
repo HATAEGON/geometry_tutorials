@@ -74,6 +74,8 @@ class FrameListener(Node):
                         f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
                     return
 
+                self.get_logger().info(f'x = {trans.transform.translation.x:.3f}, y = {trans.transform.translation.y:.3f}')
+
                 msg = Twist()
                 scale_rotation_rate = 1.0
                 msg.angular.z = scale_rotation_rate * math.atan2(
