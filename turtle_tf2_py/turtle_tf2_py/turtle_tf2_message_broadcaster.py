@@ -36,7 +36,8 @@ class PointPublisher(Node):
         self.turtle_spawned = False
         # if the topics of turtle3 can be subscribed
         self.turtle_pose_cansubscribe = False
-
+        self.turtle_pose_subscribed = False
+        
         self.timer = self.create_timer(1.0, self.on_timer)
 
     def on_timer(self):
@@ -66,10 +67,11 @@ class PointPublisher(Node):
                 # Check if the service is ready
                 self.get_logger().info('Service is not ready')
 
-        if self.turtle_pose_cansubscribe:
+        if self.turtle_pose_cansubscribe is True and self.turtle_pose_subscribed is False:
             self.vel_pub = self.create_publisher(Twist, 'turtle3/cmd_vel', 10)
             self.sub = self.create_subscription(Pose, 'turtle3/pose', self.handle_turtle_pose, 10)
             self.pub = self.create_publisher(PointStamped, 'turtle3/turtle_point_stamped', 10)
+            self.get_logger().info('turtle_pose_subscribed')
 
     def handle_turtle_pose(self, msg):
         vel_msg = Twist()
